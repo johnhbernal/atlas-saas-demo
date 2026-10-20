@@ -82,6 +82,22 @@ curl http://127.0.0.1:8000/api/products \
 php artisan test
 ```
 
+| Suite | Pins |
+|-------|------|
+| `TenantIsolationTest` | products are scoped to the authenticated tenant; foreign ids 404; a company header the user does not belong to is 403 |
+| `StockServiceTest` | weighted-average cost on receive, stock decrease on ship, over-ship rejected |
+| `ModuleGateTest` | module entitlement: no token 401, `inventario` missing or `enabled = false` → 403 with the module message, enabled → 200 |
+
+## Definition of Done (Red-TIC mínimo)
+
+1. Diff acotado al pedido
+2. `php artisan test` verde (CI en push/PR)
+3. Sin secretos en git
+4. Tenant isolation intacta (`CompanyScope` / `X-Company-Id`)
+5. Agentes: `.ai/AGENTS.md` + skill `redtic-software-practices`
+
+Veredicto demo: **APTO CONDICIONAL** — no claim 100% calidad.
+
 ## Project map
 
 ```
@@ -102,7 +118,7 @@ tests/Feature/StockServiceTest.php
 - [ ] Filament admin panel (optional)
 - [ ] React/TS POS client
 - [ ] Docker Compose + Postgres
-- [ ] GitHub Actions CI
+- [x] GitHub Actions CI (`.github/workflows/tests.yml` → `php artisan test`)
 
 ## Author
 
